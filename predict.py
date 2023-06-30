@@ -1,5 +1,5 @@
 """
-  This script provides an example to  UER-py for classification inference - single se.
+  This script provides an example to  UER-py for classification inference - single sentence.
 """
 import sys
 import os
@@ -19,7 +19,6 @@ from uer.utils import *
 from uer.utils.config import load_hyperparam
 from uer.opts import infer_opts, tokenizer_opts, model_opts
 from finetune.run_classifier import Classifier
-
 
 def load_model(model, model_path):
     """
@@ -59,7 +58,6 @@ def bert_pred(args, model, chat_text, device):
     
     probs = nn.Softmax(dim=1)(logits)
     probs = probs.cpu().numpy().tolist()[0][pred]
-
     print('---', logits, pred, probs)
     return pred, probs
 
@@ -98,15 +96,10 @@ def main():
         print("{} GPUs are available. Let's use them.".format(torch.cuda.device_count()))
         model = torch.nn.DataParallel(model)
     model.eval()
-
-
+  
     chat_text = "我的电话号码是 135 6783 4356" 
-
     pred, _ = bert_pred(args, model, chat_text, device)
-
     print(pred)
-
-
             
 if __name__ == "__main__":
     main()
